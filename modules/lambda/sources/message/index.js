@@ -21,9 +21,12 @@ const sendMessage = async ({ connectionId, message, client }) => {
     }).promise();    
 };
 
-exports.handler = (event) => {  
+exports.handler = (event, context, callback) => {
+    const { connectionId } = event.requestContext;
     const apiGatewayAPI = createAPIGatewayAPI(event);
     const message = JSON.parse(event.body).message;
+
+    console.log(`Received a message ${message} from ${connectionId}`);
 
     getConnections().then((data) => {        
         data.Items.forEach(({ id }) => {
@@ -34,7 +37,7 @@ exports.handler = (event) => {
                 message: JSON.stringify(message),
             })
         });    
-    }); 
+    });
 
-    return {}
+    callback(null, { statusCode: 200 });
 }
