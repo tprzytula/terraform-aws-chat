@@ -24,9 +24,9 @@ const sendMessage = async ({ connectionId, message, client }) => {
 exports.handler = (event, context, callback) => {
     const { connectionId } = event.requestContext;
     const apiGatewayAPI = createAPIGatewayAPI(event);
-    const message = JSON.parse(event.body).message;
+    const parsedMessage = JSON.parse(event.body);
 
-    console.log(`Received a message ${message} from ${connectionId}`);
+    console.log(`Received a message ${parsedMessage} from ${connectionId}`);
 
     getConnections().then((data) => {        
         data.Items.forEach(({ id }) => {
@@ -34,7 +34,7 @@ exports.handler = (event, context, callback) => {
             sendMessage({
                 client: apiGatewayAPI,
                 connectionId: id,
-                message: JSON.stringify(message),
+                message: event.body,
             })
         });    
     });

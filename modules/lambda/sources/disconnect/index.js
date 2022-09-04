@@ -8,11 +8,13 @@ const removeConnectionId = (connectionId) => {
         },    
     }).promise();
 }
+
 exports.handler = (event, context, callback) => {    
-    const connectionId = event.requestContext.connectionId;    
+    const { connectionId } = event.requestContext;
+
     removeConnectionId(connectionId).then(() => {    
         callback(null, {
             statusCode: 200,
-        })    
+        });  
     });
 }
