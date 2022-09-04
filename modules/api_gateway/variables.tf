@@ -3,23 +3,10 @@ variable "random_name" {
   type        = string
 }
 
-variable "lambda_function_connect" {
-  type = object({
-    arn           = string
-    function_name = string
-  })
-}
-
-variable "lambda_function_disconnect" {
-  type = object({
-    arn           = string
-    function_name = string
-  })
-}
-
-variable "lambda_function_message" {
-  type = object({
-    arn           = string
-    function_name = string
-  })
+variable "lambda_functions" {
+  type = map(object({
+    arn : string,
+    function_name : string
+    route_key : string
+  }))
 }

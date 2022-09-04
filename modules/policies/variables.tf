@@ -11,16 +11,10 @@ variable "dynamodb_connections_arn" {
   type = string
 }
 
-variable "connect_lambda_role_name" {
-  type = string
-}
-
-variable "disconnect_lambda_role_name" {
-  type = string
-}
-
-variable "message_lambda_role_name" {
-  type = string
+variable "lambda_functions" {
+  type = map(object({
+    iam_role_name : string
+  }))
 }
 
 variable "api_gateway_role_name" {
