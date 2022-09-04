@@ -6,5 +6,5 @@ resource "aws_apigatewayv2_integration" "lambda_integrations" {
   connection_type    = "INTERNET"
   integration_type   = "AWS_PROXY"
   integration_method = "POST"
-  integration_uri    = each.value.arn
+  integration_uri    = each.value.invoke_arn
 }

@@ -5,7 +5,7 @@ variable "random_name" {
 
 variable "lambda_functions" {
   type = map(object({
-    arn : string,
+    invoke_arn : string,
     function_name : string
     route_key : string
   }))
