@@ -30,4 +30,5 @@ module "policies" {
   api_gateway_api_id       = module.api_gateway.api_gateway_api_id
   api_gateway_role_name    = module.api_gateway.api_gateway_role_name
   dynamodb_connections_arn = module.dynamodb.connections_arn
+  dynamodb_messages_arn    = module.dynamodb.messages_arn
 }

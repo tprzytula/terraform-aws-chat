@@ -20,3 +20,7 @@ variable "lambda_functions" {
 variable "api_gateway_role_name" {
   type = string
 }
+
+variable "dynamodb_messages_arn" {
+  type = string
+}
