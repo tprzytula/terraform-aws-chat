@@ -14,5 +14,4 @@ resource "aws_dynamodb_table" "messages" {
     name = "message"
     type = "S"
   }
-
 }

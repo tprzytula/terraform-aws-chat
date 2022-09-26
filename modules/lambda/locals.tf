@@ -19,5 +19,10 @@ locals {
       output_path = format("%s/message.zip", local.output_root_directory)
       route_key   = "message"
     }
+    "remove" = {
+      source_dir  = format("%s/remove", local.source_root_directory)
+      output_path = format("%s/remove.zip", local.output_root_directory)
+      route_key   = "remove"
+    }
   }
 }

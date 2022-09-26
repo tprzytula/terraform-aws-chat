@@ -16,7 +16,7 @@ const addMessage = async (message) => {
   await ddb
     .put({
       TableName: "messages",
-      Item: { id, message },
+      Item: { id, message, visible: true },
     })
     .promise();
 
@@ -49,7 +49,7 @@ exports.handler = async (event, context, callback) => {
 
   parsedMessage.payload.id = messageId;
 
-  console.log(`Received a message ${parsedMessage} from ${connectionId}`);
+  console.log(`Received a message ${event.body} from ${connectionId}`);
 
   getConnections().then((data) => {
     data.Items.forEach(({ id }) => {
