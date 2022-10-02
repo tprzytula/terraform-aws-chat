@@ -1,22 +1,22 @@
-const AWS = require("aws-sdk");
-const ddb = new AWS.DynamoDB.DocumentClient();
+const { DynamoDBClient, DeleteItemCommand } = require("@aws-sdk/client-dynamodb");
+const client = new DynamoDBClient({ region: "eu-west-2" });
+
 const removeConnectionId = (connectionId) => {
-  return ddb
-    .delete({
-      TableName: "connections",
-      Key: {
-        id: connectionId,
-      },
-    })
-    .promise();
+  new DeleteItemCommand({ TableName: 'connections', Key: { }})
+  const command = new DeleteItemCommand({
+    TableName: 'connections',
+    Key: { id: { S: connectionId } }
+  });
+
+  return client.send(command);
 };
 
-exports.handler = (event, context, callback) => {
+exports.handler = async (event, context, callback) => {
   const { connectionId } = event.requestContext;
 
-  removeConnectionId(connectionId).then(() => {
-    callback(null, {
-      statusCode: 200,
-    });
+  await removeConnectionId(connectionId);
+
+  callback(null, {
+    statusCode: 200,
   });
 };

@@ -18,3 +18,4 @@ resource "aws_lambda_function" "lambda_functions" {
   publish          = true
   timeout          = 5
 }
+

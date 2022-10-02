@@ -1,11 +1,13 @@
-const AWS = require('aws-sdk');
-const ddb = new AWS.DynamoDB.DocumentClient();
+const { DynamoDBClient, PutItemCommand } = require("@aws-sdk/client-dynamodb");
+const client = new DynamoDBClient({ region: "eu-west-2" });
 
-const addConnectionId = (connectionId) => {    
-    return ddb.put({
+const addConnectionId = async (connectionId) => {    
+    const command = new PutItemCommand({
         TableName: 'connections',
-        Item: { id: connectionId }
-    }).promise();
+        Item: { id: { S: connectionId } }
+    });
+
+    return client.send(command);
 }
 
 exports.handler = (event, context, callback) => {    

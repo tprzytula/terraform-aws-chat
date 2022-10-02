@@ -1,26 +1,29 @@
 const AWS = require("aws-sdk");
+const { DynamoDBClient, PutItemCommand, ScanCommand } = require("@aws-sdk/client-dynamodb");
 const { randomUUID } = require("crypto");
-const ddb = new AWS.DynamoDB.DocumentClient();
+const client = new DynamoDBClient({ region: "eu-west-2" });
 
 const getConnections = () => {
-  return ddb
-    .scan({
-      TableName: "connections",
-    })
-    .promise();
+  const command = new ScanCommand({
+    TableName: 'connections'
+  });
+
+  return client.send(command);
 };
 
 const addMessage = async (message) => {
   const id = randomUUID();
 
-  await ddb
-    .put({
-      TableName: "messages",
-      Item: { id, message, visible: true },
-    })
-    .promise();
+  const command = new PutItemCommand({
+    TableName: 'messages',
+    Item: {
+      id: { S: id },
+      message: { S: message },
+      visible: { BOOL: true },
+    }
+  });
 
-  return id;
+  return client.send(command);
 };
 
 const createAPIGatewayAPI = (event) => {
