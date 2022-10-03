@@ -1,11 +1,15 @@
 const AWS = require("aws-sdk");
-const { DynamoDBClient, PutItemCommand, ScanCommand } = require("@aws-sdk/client-dynamodb");
+const {
+  DynamoDBClient,
+  PutItemCommand,
+  ScanCommand,
+} = require("@aws-sdk/client-dynamodb");
 const { randomUUID } = require("crypto");
 const client = new DynamoDBClient({ region: "eu-west-2" });
 
 const getConnections = () => {
   const command = new ScanCommand({
-    TableName: 'connections'
+    TableName: "connections",
   });
 
   return client.send(command);
@@ -15,12 +19,12 @@ const addMessage = async (message) => {
   const id = randomUUID();
 
   const command = new PutItemCommand({
-    TableName: 'messages',
+    TableName: "messages",
     Item: {
       id: { S: id },
       message: { S: message },
       visible: { BOOL: true },
-    }
+    },
   });
 
   return client.send(command);
