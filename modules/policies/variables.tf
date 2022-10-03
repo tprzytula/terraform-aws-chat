@@ -21,6 +21,6 @@ variable "api_gateway_role_name" {
   type = string
 }
 
- variable "dynamodb_messages_arn" {
+variable "dynamodb_messages_arn" {
   type = string
- }
+}
