@@ -17,6 +17,7 @@ resource "aws_iam_role_policy_attachment" "message_lambda_manage_connections_rol
   role       = var.lambda_functions["message"].iam_role_name
   policy_arn = aws_iam_policy.message_lambda_manage_connections_policy.arn
 }
+
 resource "aws_iam_policy" "message_lambda_messages_policy" {
   name   = format("message_lambda_messages_policy_%s", var.random_name)
   policy = data.aws_iam_policy_document.dynamodb_on_message_messages_policy.json

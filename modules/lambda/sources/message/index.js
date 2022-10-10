@@ -7,7 +7,7 @@ const {
 const { randomUUID } = require("crypto");
 const client = new DynamoDBClient({ region: "eu-west-2" });
 
-const getConnections = () => {
+const getConnections = async () => {
   const command = new ScanCommand({
     TableName: "connections",
   });
@@ -27,7 +27,9 @@ const addMessage = async (message) => {
     },
   });
 
-  return client.send(command);
+  await client.send(command);
+
+  return id;
 };
 
 const createAPIGatewayAPI = (event) => {
@@ -58,14 +60,13 @@ exports.handler = async (event, context, callback) => {
 
   console.log(`Received a message ${event.body} from ${connectionId}`);
 
-  getConnections().then((data) => {
-    data.Items.forEach(({ id }) => {
-      console.log(`Sending message to connection ${id}`);
-      sendMessage({
-        client: apiGatewayAPI,
-        connectionId: id,
-        message: JSON.stringify(parsedMessage),
-      });
+  const connections = await getConnections();
+  connections.Items.forEach(({ id: { S: connectionId } }) => {
+    console.log("Sending message to connection ", connectionId);
+    sendMessage({
+      client: apiGatewayAPI,
+      connectionId,
+      message: JSON.stringify(parsedMessage),
     });
   });
 
