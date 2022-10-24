@@ -1,0 +1,30 @@
+#   /login:
+#     post:
+#       requestBody:
+#         content:
+#           application/json:
+#             schema:
+#               $ref: "#/components/schemas/details"
+#         required: true
+#       x-amazon-apigateway-request-validator: Validate body
+#       x-amazon-apigateway-integration:
+#         httpMethod: POST
+#         type: AWS_PROXY
+#         uri: ${lambda_login}
+#         passthroughBehavior: when_no_match
+#         contentHandling: CONVERT_TO_TEXT
+#       responses:
+#         200:
+#           description: Successful response
+#           content:
+#             application/json:
+#               schema:
+#                 type: object
+#                 required:
+#                   - jwt
+#                 properties:
+#                   jwt:
+#                     type: string
+#                     example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwidXNlcm5hbWUiOiJmaWxpcCIsImlhdCI6MTUxNjIzOTAyMn0.juICRWRnj0jJxs8xSmyc6-SNCja6zrnmuuApulgpN18
+#         400:
+#           description: Username or Password are incorrect

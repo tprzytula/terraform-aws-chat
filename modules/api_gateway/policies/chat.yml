@@ -1,0 +1,48 @@
+openapi: 3.0.1
+info:
+  title: Chat
+  description: |
+    API for Chat
+  version: "1.0"
+paths:
+  /register:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/details"
+        required: true
+      x-amazon-apigateway-request-validator: Validate body
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        type: AWS_PROXY
+        uri: ${invoke_arn}
+        passthroughBehavior: when_no_match
+        contentHandling: CONVERT_TO_TEXT
+      responses:
+        201:
+          description: Account created successfully
+        400:
+          description: Username or Password provided incorrectly
+        409:
+          description: Provided Username currently exist
+components:
+  schemas:
+    details:
+      title: User details
+      required:
+        - username
+        - password
+      type: object
+      properties:
+        username:
+          type: string
+          example: filip
+        password:
+          type: string
+          example: qwerty
+x-amazon-apigateway-request-validators:
+  Validate body:
+    validateRequestParameters: false
+    validateRequestBody: true
